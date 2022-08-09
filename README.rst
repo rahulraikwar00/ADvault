@@ -28,11 +28,9 @@
     :target: https://pyscaffold.org/
 
 |
-
 =======
 ADvault
 =======
-
 
     Add a short description here!
 
