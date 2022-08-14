@@ -1,6 +1,6 @@
 import pytest
 
-from advault.skeleton import fib, main
+from advault.main import fib, main
 
 __author__ = "rahul raikwar"
 __copyright__ = "rahul raikwar"
