@@ -13,7 +13,8 @@ __pycache__/*
 .*.swp
 */.ipynb_checkpoints/*
 .DS_Store
-
+api
+settings.py
 # Project files
 virtualenvs
 venv
