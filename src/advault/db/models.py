@@ -2,8 +2,6 @@ from typing import Optional
 import datetime
 from sqlmodel import Field, SQLModel
 
-
-
 class Ad_Hub(SQLModel,table=True):
     id:Optional[int] = Field(default=None)
     adhar_key: str = Field(primary_key=True)
