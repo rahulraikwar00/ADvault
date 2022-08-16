@@ -1,9 +1,8 @@
 .. These are examples of badges you might want to add to your README:
    please update the URLs accordingly
-
-    .. image:: https://api.cirrus-ci.com/github/<USER>/ADvault.svg?branch=main
-        :alt: Built Status
-        :target: https://cirrus-ci.com/github/<USER>/ADvault
+.. image:: https://api.cirrus-ci.com/github/<USER>/ADvault.svg?branch=main
+      :alt: Built Status
+      :target: https://cirrus-ci.com/github/<USER>/ADvault
     .. image:: https://readthedocs.org/projects/ADvault/badge/?version=latest
         :alt: ReadTheDocs
         :target: https://ADvault.readthedocs.io/en/stable/
