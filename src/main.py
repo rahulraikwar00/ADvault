@@ -1,9 +1,7 @@
-from re import template
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI 
 from advault.db.models import *
 from advault.db.database import *
 from advault.db.crud import *
-from sqlmodel import select, insert, update, delete, Session
 
 
 app = FastAPI()
@@ -39,5 +37,21 @@ def insert_adm_link(data: AdDm_Link):
 @app.post("/insert_satellite")
 def insert_satellite(data: Ad_Satellite):
     ins_data_satellite(data)
+    print("Data inserted")
+    return data
+
+
+@app.get("/select")
+def select_all():
+    return select_all_data()
+
+
+# insert data in all tables in database
+@app.post("/insert_all")
+def insert_all(data: All_Data):
+    ins_data_hub(data.hub)
+    ins_data_demo(data.demo)
+    ins_data_ADm_link(data.adm_link)
+    ins_data_satellite(data.satellite)
     print("Data inserted")
     return data

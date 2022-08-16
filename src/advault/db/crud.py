@@ -36,3 +36,7 @@ def ins_data_satellite(data: Ad_Satellite):
         db.add(data)
         db.commit()
         return data
+
+def select_all_data():
+    with get_db() as db:
+        return db.query(Ad_Hub).all()
