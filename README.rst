@@ -15,9 +15,6 @@
 .. image:: https://img.shields.io/conda/vn/conda-forge/ADvault.svg
     :alt: Conda-Forge
     :target: https://anaconda.org/conda-forge/ADvault
-.. image:: https://pepy.tech/badge/ADvault/month
-    :alt: Monthly Downloads
-    :target: https://pepy.tech/project/ADvault
 .. image:: https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Twitter
     :alt: Twitter
     :target: https://twitter.com/ADvault
