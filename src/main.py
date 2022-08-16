@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from advault.db.models import *
 from advault.db.database import *
 from advault.db.crud import *
-from advault.db.schema import *
+# from advault.db.schema import *
 
 
 app = FastAPI()
