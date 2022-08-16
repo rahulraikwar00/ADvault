@@ -23,7 +23,7 @@
         :target: https://twitter.com/ADvault
 
 
-.. image:: https://i.imgur.com/0YAEzth.png
+.. image:: https://i.imgur.com/0YAEzth.png 
     :alt: ADvault
     :scale: 10 %
     :align: center
