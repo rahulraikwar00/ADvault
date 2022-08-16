@@ -26,9 +26,8 @@
 
 .. image:: https://i.imgur.com/QncQwQk.png
     :alt: ADvault
-    :width: 200px
-    :height: 100px
-    :scale: 50 %
+    :width: 100px
+    :scale: 10 %
     :align: center
 =======
 ADvault
