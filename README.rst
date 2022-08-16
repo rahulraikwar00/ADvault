@@ -24,7 +24,7 @@
         :target: https://twitter.com/ADvault
 
 
-.. image:: https://i.imgur.com/RfZdGjg.png
+.. image:: https://i.imgur.com/GVx7qkQ.png
     :alt: ADvault
     :width: 100px
     :scale: 10 %
