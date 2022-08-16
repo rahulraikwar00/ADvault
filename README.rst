@@ -24,10 +24,12 @@
         :target: https://twitter.com/ADvault
 
 
-
-<p align="center">
-  <a"><img src="https://i.imgur.com/QncQwQk.png" alt="ADvault"></a>
-</p>
+.. image:: https://i.imgur.com/QncQwQk.png
+    :alt: ADvault
+    :width: 200px
+    :height: 100px
+    :scale: 50 %
+    :align: center
 =======
 ADvault
 =======
