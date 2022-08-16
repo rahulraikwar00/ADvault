@@ -1,5 +1,3 @@
-import imp
-from this import d
 from unicodedata import name
 from sqlmodel import SQLModel, create_engine
 import sqlalchemy_utils as sa_utils
@@ -19,4 +17,3 @@ def cr_db():
 
 def drop_db():
     SQLModel.metadata.drop_all(engine)
-
