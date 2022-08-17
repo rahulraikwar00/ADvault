@@ -1,44 +1,34 @@
 from fastapi import FastAPI
-from advault.db.models import *
-from advault.db.database import *
-from advault.db.crud import *
-# from advault.db.schema import *
-
+from advault.db import crud, database, models, schemas
 
 app = FastAPI()
 
 
 @app.get("/")
 async def create():
-    cr_db()
+    database.cr_db()
     print("Database created")
 
 
-# @app.post("/insert")
-# def insert_hub(data: Ad_Hub):
-#     ins_data_hub(data)
-#     print("Data inserted")
-#     return data
+@app.pst("/upload")
+async def upload(data: models.Poa_Sat):
+    pass
 
 
-# @app.post("/insert_adm_link")
-# def insert_adm_link(data: AdDm_Link):
-#     ins_data_ADm_link(data)
-#     print("Data inserted")
-#     return data
+@app.get("/download/{refrence_id}")
+async def download(refrence_id: str):
+    pass
 
 
-# @app.post("/insert_satellite")
-# def insert_satellite(data: Ad_Satellite):
-#     ins_data_satellite(data)
-#     print("Data inserted")
-#     return data
+@app.get("/download/{refrence_id}/{file_name}")
+async def download(refrence_id: str, file_name: str):
+    pass
 
 
-# @app.get("/select")
-# def select_all():
-#     return select_all_data()
-
+# request to check if the refrecne id is present in the database
+@app.get("/check/{refrence_id}")
+async def check(refrence_id: str):
+    pass
 
 # @app.post("/aadhar_data_insert")
 # def aadhar_data_insert(data: Aadhaar):
