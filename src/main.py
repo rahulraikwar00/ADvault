@@ -14,11 +14,11 @@ async def create():
     print("Database created")
 
 
-# @app.post("/insert")
-# def insert_hub(data: Ad_Hub):
-#     ins_data_hub(data)
-#     print("Data inserted")
-#     return data
+@app.post("/insert")
+def insert_hub(data: Aadhaar):
+    ins_data_hub(data)
+    print("Data inserted")
+    return data
 
 
 # @app.post("/insert_adm_link")

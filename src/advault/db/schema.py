@@ -1,7 +1,8 @@
 from ast import Num
-from pydantic import BaseModel
+# from pydantic import BaseModel
+from sqlmodel import SQLModel
 
-class Aadhaar(BaseModel):
+class Aadhaar(SQLModel):
     aadhaar_number: str
     name: str
     dob: str
@@ -14,11 +15,3 @@ class Aadhaar(BaseModel):
     district: str
     state: str
     pincode: int
-
-
-
-# c- red
-# d- green
-# e- yellow
-
-# mix - balls
