@@ -1,17 +1,21 @@
 from fastapi import FastAPI
-from advault.db import crud, database, models, schemas
+
+# import local database file
+from db.database import *
+from db.crud import *
+from db.models import *
+from db.schema import *
 
 app = FastAPI()
 
 
 @app.get("/")
 async def create():
-    database.cr_db()
-    print("Database created")
+    cr_db()
+    return {"message": "Database created"}
 
-
-@app.pst("/upload")
-async def upload(data: models.Poa_Sat):
+@app.post("/upload")
+async def upload(data: Poa_Sat):
     pass
 
 
@@ -29,6 +33,7 @@ async def download(refrence_id: str, file_name: str):
 @app.get("/check/{refrence_id}")
 async def check(refrence_id: str):
     pass
+
 
 # @app.post("/aadhar_data_insert")
 # def aadhar_data_insert(data: Aadhaar):

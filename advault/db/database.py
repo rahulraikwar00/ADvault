@@ -1,7 +1,5 @@
 from sqlmodel import SQLModel, create_engine
 import sqlalchemy_utils as sa_utils
-from .models import *
-
 
 SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:1234@localhost:3306/advault"
 # url = "postgresql://postgres:root@localhost:5432/advault"

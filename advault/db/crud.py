@@ -1,4 +1,4 @@
-from .database import *
+
 from sqlmodel import select, insert, update, delete, Session
 
 

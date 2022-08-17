@@ -1,4 +1,3 @@
-from ast import Num
 from pydantic import BaseModel
 
 class Aadhaar(BaseModel):
