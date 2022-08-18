@@ -3,7 +3,7 @@ from .database import *
 from .crud import *
 from .models import *
 from Engine.user import Democrypt
-from sqlmodel import select, insert, update, delete, Session
+from sqlmodel import Session, select
 import hashlib
 
 
@@ -94,19 +94,46 @@ def insert_ad_audit_link(aadhaar_key: str, audit_key: str):
     return link_entry
 
 
+def get_data(reference_id: str):
+    with get_db() as db:
+        data = db.query(Ad_Hub).filter(Ad_Hub.aadhaar_key == reference_id).first()
+        return data
+
+
+def get_all_data():
+    with get_db() as db:
+        data = db.execute(
+            "SELECT * FROM ad_hub,poi_sat,poa_sat WHERE ad_hub.aadhaar_key = poi_sat.aadhaar_key and ad_hub.aadhaar_key = poa_sat.aadhaar_key;"
+        ).fetchall()
+        return data
+
+
+def get_data_by_columns(columns: QuerType):
+    collstr = []
+    print(collstr)
+    for col in columns:
+        if col[1]:
+            collstr.append(col[0])
+    collstr=",".join(collstr)
+    with get_db() as db:
+        data = db.execute(f"SELECT ad_hub.aadhaar_key,{collstr} FROM ad_hub,poi_sat,poa_sat WHERE ad_hub.aadhaar_key = poi_sat.aadhaar_key and ad_hub.aadhaar_key = poa_sat.aadhaar_key;").fetchall()
+        return data
+
 
 def ins_data_hub(data: Aadhaar):
     with get_db() as db:
+        # for testing purpose
         # aadhaar_key = data.aadhaar_key
-        # audit_key  = data.aadhaar_key
+        # audit_key = data.aadhaar_key
         # uid = data.aadhaar_key
 
         aadhaar_key = hashlib.sha256(data.aadhaar_key.encode("utf-8")).hexdigest()
         uid = hashlib.sha256((data.aadhaar_key + "SALT").encode("utf-8")).hexdigest()
         audit_key = hashlib.sha256(
-            (data.aadhaar_key + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")).encode(
-                "utf-8"
-            )
+            (
+                data.aadhaar_key
+                + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+            ).encode("utf-8")
         ).hexdigest()
 
         ad_hub = inset_ad_hub(data, aadhaar_key, uid)
