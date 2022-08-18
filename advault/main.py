@@ -29,3 +29,13 @@ async def download(refrence_id: str):
 @app.get("/download/{refrence_id}/{file_name}")
 async def download(refrence_id: str, file_name: str):
     pass
+
+
+@app.get("/download_all/")
+async def download():
+    return get_all_data()
+
+
+@app.post("/download")
+async def download(columns: QuerType):
+    return get_data_by_columns(columns)

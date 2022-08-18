@@ -3,6 +3,27 @@ import datetime
 from sqlmodel import Field, SQLModel
 
 
+class QuerType(SQLModel):
+    # Aadhaar_key: str
+    e: bool = False
+    gender: bool = False
+    m: bool = False
+    name: bool = False
+    status: bool = False
+    careof: bool = False
+    country: bool = False
+    dist: bool = False
+    house: bool = False
+    landmark: bool = False
+    loc: bool = False
+    pc: bool = False
+    po: bool = False
+    state: bool = False
+    street: bool = False
+    subdist: bool = False
+    vtc: bool = False
+
+
 class Ad_Hub(SQLModel, table=True):
     aadhaar_key: str = Field(primary_key=True)
     uid: str
