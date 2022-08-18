@@ -2,6 +2,7 @@ from sqlite3 import Timestamp
 from .database import *
 from .crud import *
 from .models import *
+from .schema import *
 from Engine.user import Democrypt
 from sqlmodel import Session, select
 import hashlib
@@ -114,9 +115,15 @@ def get_data_by_columns(columns: QuerType):
     for col in columns:
         if col[1]:
             collstr.append(col[0])
-    collstr=",".join(collstr)
+    collstr = ",".join(collstr)
+    if len(collstr) < 1:
+        collstr = ""
+    else:
+        collstr = "," + collstr
     with get_db() as db:
-        data = db.execute(f"SELECT ad_hub.aadhaar_key,{collstr} FROM ad_hub,poi_sat,poa_sat WHERE ad_hub.aadhaar_key = poi_sat.aadhaar_key and ad_hub.aadhaar_key = poa_sat.aadhaar_key;").fetchall()
+        data = db.execute(
+            f"SELECT ad_hub.aadhaar_key {collstr} FROM ad_hub,poi_sat,poa_sat WHERE ad_hub.aadhaar_key = poi_sat.aadhaar_key and ad_hub.aadhaar_key = poa_sat.aadhaar_key;"
+        ).fetchall()
         return data
 
 
