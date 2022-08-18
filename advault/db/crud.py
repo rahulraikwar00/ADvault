@@ -28,16 +28,3 @@ def ins_data_hub(data: Aadhaar):
         db.add(poi_entry)
         db.commit()
         return {"message": "Data uploaded"}
-
-
-# imp concept of hashing
-
-# 1234 +salt-> abcd | asdnafksndknfakjsndkfjnaksdnfkajnds12k3n1k
-
-# sha256(1234) -> asdnafksndknfakjsndkfjnaksdnfkajnds12k3n1ksha
-
-
-# pooja30gb.pdf+ 124566 -> pooja30gb.cypt
-
-# sha256(pooja30gb.pdf )-> asdnafksndknfakjsndkfjnaksdnfkajnds12k3n1ksha
-# pooja30gb.pdf -> pooja30gb.cypt
