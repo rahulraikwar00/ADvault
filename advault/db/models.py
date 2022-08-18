@@ -1,23 +1,26 @@
+from enum import auto, unique
 from typing import Optional
 import datetime
+from xml.dom.minidom import Identified
 from sqlmodel import Field, SQLModel
 
 
-class Aadhaar(SQLModel):
-    aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
-    status: str
-    timestamp: datetime.datetime
-
-
 class Ad_Hub(SQLModel, table=True):
-    id: Optional[int] = Field(default=None)
     aadhaar_key: str = Field(primary_key=True)
     uid: str
 
 
-class Poi_Sat(Aadhaar, table=True):
+class Aadhaar(SQLModel):
     id: Optional[int] = Field(default=None, primary_key=True)
-    careof: str 
+    dob: str
+    aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
+    timestamp: datetime.datetime
+    e: Optional[str] = Field(default=None)
+    gender: str
+    m: str
+    name: str
+    status: str
+    careof: str
     country: str
     dist: str
     house: str
@@ -31,8 +34,29 @@ class Poi_Sat(Aadhaar, table=True):
     vtc: str
 
 
-class Poa_Sat(Aadhaar, table=True):
+class Poa_Sat(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+    aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
+    timestamp: datetime.datetime
+    status: str
+    careof: str
+    country: str
+    dist: str
+    house: str
+    landmark: str
+    loc: str
+    pc: str
+    po: str
+    state: str
+    street: str
+    subdist: str
+    vtc: str
+
+
+class Poi_Sat(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
+    timestamp: datetime.datetime = Field(default=datetime.datetime.now())
     dob: str
     e: Optional[str] = Field(default=None)
     gender: str
@@ -40,13 +64,16 @@ class Poa_Sat(Aadhaar, table=True):
     name: str
 
 
-class Ad_Aud_Link(Aadhaar, table=True):
+# autdit_logs
+class Ad_Aud_Link(SQLModel, table=True):
     ad_aud_key: str = Field(primary_key=True)
+    aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
     audit_key: str = Field(foreign_key="audit_hub.audit_key")
 
 
-class AD_salt_sat(Aadhaar, table=True):
+class AD_salt_sat(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+    aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
     salt: str = Field(primary_key=True)
 
 
