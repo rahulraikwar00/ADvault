@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from db.database import *
 from db.crud import *
 from db.models import *
+
 app = FastAPI()
 
 
@@ -12,9 +13,11 @@ async def create():
     cr_db()
     return {"message": "Database created"}
 
+
 @app.post("/upload")
 async def upload(data: Aadhaar):
     ins_data_hub(data)
+
     return {"message": "Data uploaded"}
 
 

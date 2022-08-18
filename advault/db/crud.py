@@ -1,3 +1,4 @@
+from sqlite3 import Timestamp
 from .database import *
 from .crud import *
 from .models import *
@@ -11,33 +12,120 @@ def get_db():
     return db
 
 
+def inset_ad_hub(data: Aadhaar, aadhaar_key: str, uid: str):
+    adHub_entry = Ad_Hub(aadhaar_key=aadhaar_key, uid=uid)
+    return adHub_entry
+
+
+def insert_poi_sat(data: Aadhaar, aadhaar_key: str):
+    poi_entry = Poi_Sat(
+        aadhaar_key=aadhaar_key,
+        dob=data.dob,
+        e=data.e,
+        name=data.name,
+        gender=data.gender,
+        m=data.m,
+    )
+    return poi_entry
+
+
+def insert_poa_sat(data: Aadhaar, aadhaar_key: str):
+    poa_entry = Poa_Sat(
+        aadhaar_key=aadhaar_key,
+        careof=data.careof,
+        country=data.country,
+        dist=data.dist,
+        house=data.house,
+        landmark=data.landmark,
+        loc=data.loc,
+        pc=data.pc,
+        po=data.po,
+        state=data.state,
+        street=data.street,
+        subdist=data.subdist,
+        vtc=data.vtc,
+        status=data.status,
+    )
+    return poa_entry
+
+
+def inset_audit_hub(audit_key: str):
+    audit_entry = Audit_Hub(
+        audit_key=audit_key,
+        timestamp=datetime.datetime.now(),
+    )
+    return audit_entry
+
+
+def insert_user_audit_sat(audit_key: str):
+    user_entry = User_Audit_Sat(
+        audit_key=audit_key,
+        timestamp=datetime.datetime.now(),
+        status="status",
+        action="action",
+        action_by="action_by",
+        action_on="action_on",
+        action_remarks="action_remarks",
+        reason="reason",
+    )
+    return user_entry
+
+
+def insert_server_audit_sat(audit_key: str):
+    server_entry = Server_Audit_Sat(
+        audit_key=audit_key,
+        timestamp=datetime.datetime.now(),
+        status="status",
+        action="action",
+        action_by="action_by",
+        action_on="action_on",
+        action_remarks="action_remarks",
+        reason="reason",
+    )
+    return server_entry
+
+
+# pass ahadhaar_key and audit_key to this function
+def insert_ad_audit_link(aadhaar_key: str, audit_key: str):
+    link_entry = Ad_Aud_Link(
+        audit_key=audit_key,
+        aadhaar_key=aadhaar_key,
+    )
+    return link_entry
+
+
+
 def ins_data_hub(data: Aadhaar):
     with get_db() as db:
-        # tdata = Democrypt()
-        # ad_key = tdata.encrypt(data.aadhaar_key)
-        # uid_no = tdata.encrypt(data.aadhaar_key)+"salt"
-        adHub_entry = Ad_Hub(
-            aadhaar_key=hashlib.sha256(data.aadhaar_key.encode("utf-8")).hexdigest(),
-            uid=hashlib.sha256((data.aadhaar_key+"SALT").encode("utf-8")).hexdigest()
-        )
-        db.add(adHub_entry)
-        poi_entry = Poi_Sat(
-            dob=data.dob, e=data.e, name=data.name, gender=data.gender, m=data.m
-        )
-        db.add(adHub_entry)
-        db.add(poi_entry)
+        # aadhaar_key = data.aadhaar_key
+        # audit_key  = data.aadhaar_key
+        # uid = data.aadhaar_key
+
+        aadhaar_key = hashlib.sha256(data.aadhaar_key.encode("utf-8")).hexdigest()
+        uid = hashlib.sha256((data.aadhaar_key + "SALT").encode("utf-8")).hexdigest()
+        audit_key = hashlib.sha256(
+            (data.aadhaar_key + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")).encode(
+                "utf-8"
+            )
+        ).hexdigest()
+
+        ad_hub = inset_ad_hub(data, aadhaar_key, uid)
+        ad_poa = insert_poa_sat(data, aadhaar_key)
+        ad_poi = insert_poi_sat(data, aadhaar_key)
+
+        ad_audit = inset_audit_hub(audit_key)
+        ad_user_audit = insert_user_audit_sat(audit_key)
+        ad_server_audit = insert_server_audit_sat(audit_key)
+
+        ad_audit_link = insert_ad_audit_link(aadhaar_key, audit_key)
+        db.add(ad_hub)
+        db.add(ad_poa)
+        db.add(ad_poi)
+
+        db.add(ad_audit)
+        db.add(ad_user_audit)
+        db.add(ad_server_audit)
+
+        # db.add(ad_audit_link)
         db.commit()
         return {"message": "Data uploaded"}
-
-
-# imp concept of hashing
-
-# 1234 +salt-> abcd | asdnafksndknfakjsndkfjnaksdnfkajnds12k3n1k
-
-# sha256(1234) -> asdnafksndknfakjsndkfjnaksdnfkajnds12k3n1ksha
-
-
-# pooja30gb.pdf+ 124566 -> pooja30gb.cypt
-
-# sha256(pooja30gb.pdf )-> asdnafksndknfakjsndkfjnaksdnfkajnds12k3n1ksha
-# pooja30gb.pdf -> pooja30gb.cypt

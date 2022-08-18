@@ -1,7 +1,5 @@
-from enum import auto, unique
 from typing import Optional
 import datetime
-from xml.dom.minidom import Identified
 from sqlmodel import Field, SQLModel
 
 
@@ -13,8 +11,8 @@ class Ad_Hub(SQLModel, table=True):
 class Aadhaar(SQLModel):
     id: Optional[int] = Field(default=None, primary_key=True)
     dob: str
-    aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
-    timestamp: datetime.datetime
+    aadhaar_key: str
+    timestamp: datetime.datetime = Field(default=datetime.datetime.now())
     e: Optional[str] = Field(default=None)
     gender: str
     m: str
@@ -37,7 +35,7 @@ class Aadhaar(SQLModel):
 class Poa_Sat(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
-    timestamp: datetime.datetime
+    timestamp: datetime.datetime = Field(default=datetime.datetime.now())
     status: str
     careof: str
     country: str
@@ -66,7 +64,7 @@ class Poi_Sat(SQLModel, table=True):
 
 # autdit_logs
 class Ad_Aud_Link(SQLModel, table=True):
-    ad_aud_key: str = Field(primary_key=True)
+    ad_aud_key: Optional[int] = Field(default=None, primary_key=True)
     aadhaar_key: str = Field(foreign_key="ad_hub.aadhaar_key")
     audit_key: str = Field(foreign_key="audit_hub.audit_key")
 
