@@ -1,4 +1,5 @@
 from sqlite3 import Timestamp
+from time import sleep
 from .database import *
 from .crud import *
 from .models import *
@@ -11,6 +12,7 @@ import hashlib
 def get_db():
     db = Session(engine)
     return db
+
 
 
 def inset_ad_hub(data: Aadhaar, aadhaar_key: str, uid: str):
@@ -49,7 +51,7 @@ def insert_poa_sat(data: Aadhaar, aadhaar_key: str):
     )
     return poa_entry
 
-
+#pass audit_hub sqlmodel as parameter
 def inset_audit_hub(audit_key: str):
     audit_entry = Audit_Hub(
         audit_key=audit_key,
@@ -57,7 +59,7 @@ def inset_audit_hub(audit_key: str):
     )
     return audit_entry
 
-
+#pass user_audit_sat sqlmodel as parameter
 def insert_user_audit_sat(audit_key: str):
     user_entry = User_Audit_Sat(
         audit_key=audit_key,
@@ -71,7 +73,7 @@ def insert_user_audit_sat(audit_key: str):
     )
     return user_entry
 
-
+#pass server_audit_sat sqlmodel as parameter
 def insert_server_audit_sat(audit_key: str):
     server_entry = Server_Audit_Sat(
         audit_key=audit_key,
@@ -126,7 +128,6 @@ def get_data_by_columns(columns: QuerType):
         ).fetchall()
         return data
 
-
 def ins_data_hub(data: Aadhaar):
     with get_db() as db:
         # for testing purpose
@@ -152,6 +153,7 @@ def ins_data_hub(data: Aadhaar):
         ad_server_audit = insert_server_audit_sat(audit_key)
 
         ad_audit_link = insert_ad_audit_link(aadhaar_key, audit_key)
+        
         db.add(ad_hub)
         db.add(ad_poa)
         db.add(ad_poi)
@@ -159,7 +161,13 @@ def ins_data_hub(data: Aadhaar):
         db.add(ad_audit)
         db.add(ad_user_audit)
         db.add(ad_server_audit)
-
-        # db.add(ad_audit_link)
         db.commit()
+
+        db = Session(engine)
+        db.add(ad_audit_link)
+        db.commit()
+        
         return {"message": "Data uploaded"}
+
+
+
