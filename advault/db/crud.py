@@ -13,8 +13,7 @@ def get_db():
     db = Session(engine)
     return db
 
-def link_ins(db,ad_audit_link):
-    db.add(ad_audit_link)
+
 
 def inset_ad_hub(data: Aadhaar, aadhaar_key: str, uid: str):
     adHub_entry = Ad_Hub(aadhaar_key=aadhaar_key, uid=uid)
@@ -163,7 +162,7 @@ def ins_data_hub(data: Aadhaar):
         db.add(ad_user_audit)
         db.add(ad_server_audit)
         db.commit()
-        
+
         db = Session(engine)
         db.add(ad_audit_link)
         db.commit()
