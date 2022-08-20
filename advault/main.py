@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-
 # import local database file
 from db.database import *
 from db.crud import *
@@ -29,3 +28,7 @@ async def download():
 @app.post("/download")
 async def download(columns: QuerType):
     return get_data_by_columns(columns)
+
+@app.post("/download_by_premsat")
+async def download_by_premsat(multiSelctionDropdown: List[select_params] = Query(...)):
+    return getDataByParms(multiSelctionDropdown)
