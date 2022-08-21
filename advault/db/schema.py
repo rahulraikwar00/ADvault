@@ -1,7 +1,7 @@
 from typing import Optional
 import datetime
 from sqlmodel import Field, SQLModel
-
+from enum import Enum
 
 class QuerType(SQLModel):
     # Aadhaar_key: str

@@ -76,3 +76,11 @@ class Server_Audit_Sat(Audit_Log, table=True):
 # create user audits table
 class User_Audit_Sat(Audit_Log, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+
+
+#user table for api authentication
+class User_data(SQLModel,table=True):
+    username : str= Field(primary_key=True)
+    # password : str
+    hashed_password: str 
+    disabled: bool
