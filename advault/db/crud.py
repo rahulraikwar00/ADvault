@@ -192,5 +192,3 @@ def register_users():
         db.add(user3)
         db.commit()
         
-
-

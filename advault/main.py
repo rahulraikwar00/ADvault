@@ -1,3 +1,4 @@
+from re import A
 from typing import Union
 from urllib import response
 from fastapi import FastAPI,Depends,HTTPException,status
@@ -49,7 +50,9 @@ from passlib.context import CryptContext
 # openssl rand -hex 32
 SECRET_KEY = "ba4bb170358d997b5b1b262a3263619be867e7ce687e252067e0404ffe5f5a22"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30    
+
+# expire
+ACCESS_TOKEN_EXPIRE_MINUTES = 1
 
 
 
@@ -124,6 +127,7 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    print("encoded_jwt", encoded_jwt)
     return encoded_jwt
 
 
@@ -154,7 +158,7 @@ async def get_current_active_user(current_user: User_data = Depends(get_current_
     return current_user
 
 
-@app.post("/token",response_model = User_data)
+@app.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
         fake_users_db = get_u()
@@ -166,12 +170,14 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
                 headers={"WWW-Authenticate": "Bearer"},
             )
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        # create access token
         access_token = create_access_token(
-            data={"sub": user.username}, expires_delta=access_token_expires
+            data={"sub": user.username}, expires_delta=access_token_expires 
         )
-        return user
-    except:
-        return Exception()
+
+        return {"access_token": access_token, "token_type": "bearer"}
+    except Exception as e:
+        return e
     return access_token
 
 
@@ -189,8 +195,6 @@ async def read_users_me(current_user: User_data = Depends(get_current_active_use
 @app.get("/users/me/items/")
 async def read_own_items(current_user: User_data = Depends(get_current_active_user)):
     return [{"item_id": "Foo", "owner": current_user.username}]
-
-
 
 
 
