@@ -7,6 +7,9 @@ from sqlmodel import Session, select
 import hashlib
 from features.dropdown import *
 
+
+
+
 def get_db():
     db = Session(engine)
     return db
@@ -167,5 +170,27 @@ def ins_data_hub(data: Aadhaar):
         
         return {"message": "Data uploaded"}
 
+#get user data for authentication
+def get_all_users()->dict:
+    with get_db() as db:
+        res = db.exec(
+            "SELECT * FROM user_data;"
+        ).fetchall()
+        return res
+
+from passlib.context import CryptContext
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def register_users():
+    with get_db() as db:
+        user1 = User_data(username='pooja',hashed_password = pwd_context.hash('12345'),disabled = False)
+        user2 = User_data(username='rahul',hashed_password = pwd_context.hash('67890'),disabled = False)
+        user3 = User_data(username='aarti',hashed_password = pwd_context.hash('67582'),disabled = False)
+        db.add(user1)
+        db.add(user2)
+        db.add(user3)
+        db.commit()
+        
 
 

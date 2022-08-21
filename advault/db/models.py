@@ -80,6 +80,7 @@ class User_Audit_Sat(Audit_Log, table=True):
 
 #user table for api authentication
 class User_data(SQLModel,table=True):
-    username : str = Field(primary_key=True)
-    password : str
-    disabled: bool
+    username : Optional[str] = Field(primary_key=True)
+    # password : str
+    hashed_password:Optional[str]
+    disabled: Optional[bool]
