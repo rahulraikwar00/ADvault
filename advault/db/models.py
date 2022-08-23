@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional,Union
 import datetime
 from sqlmodel import Field, SQLModel
 
@@ -84,3 +84,20 @@ class User_data(SQLModel,table=True):
     # password : str
     hashed_password: str 
     disabled: bool
+
+
+
+class Token(SQLModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(SQLModel):
+    username: Union[str, None] = None
+
+
+class User(SQLModel):
+    username: str
+    email: Union[str, None] = None
+    full_name: Union[str, None] = None
+    disabled: Union[bool, None] = None
