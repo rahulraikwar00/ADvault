@@ -98,10 +98,22 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return access_token
 
 
+# @app.get('/register')
+# def reg():
+#     register_users()
+#     return "data uploaded"
+
 @app.get('/register')
-def reg():
-    register_users()
-    return "data uploaded"
+def reg(form_data: User = Depends()):
+    if(form_data.confirmpass==form_data.password):
+        register_users(form_data)
+        return 'data uploaded' 
+    else:
+        return 'wrong confirm pass'
+
+
+
+
 
 
 @app.get("/users/me/")
