@@ -24,7 +24,7 @@ async def createDb():
 @app.get("/")
 async def create():
     cr_db()
-    return {"message":"database created"}
+    return {"message":" database created"}
 
 
 @app.post("/upload")
