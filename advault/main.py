@@ -1,3 +1,4 @@
+from ast import main
 from re import A
 from typing import Union
 from urllib import response
@@ -14,11 +15,17 @@ from passlib.context import CryptContext
 
 app = FastAPI()
 
+@app.on_event("startup")
+async def createDb():
+    cr_db()
+
+
+
 
 @app.get("/")
-async def create(current_user: User_data = Depends(get_current_active_user)):
+async def create():
     cr_db()
-    return {"current user":current_user,"message":"database created"}
+    return {"message":"database created"}
 
 
 @app.post("/upload")
@@ -92,7 +99,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         access_token = create_access_token(
             data={"sub": user.username}, expires_delta=access_token_expires 
         )
-        print(access_token)
+        
 
         return {"access_token": access_token, "token_type": "bearer"}
     except Exception as e:
