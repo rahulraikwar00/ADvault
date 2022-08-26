@@ -96,8 +96,14 @@ class TokenData(SQLModel):
     username: Union[str, None] = None
 
 
+# class User(SQLModel):
+#     username: str
+#     email: Union[str, None] = None
+#     full_name: Union[str, None] = None
+#     disabled: Union[bool, None] = None
+
 class User(SQLModel):
     username: str
-    email: Union[str, None] = None
-    full_name: Union[str, None] = None
+    password:str 
+    confirmpass: str
     disabled: Union[bool, None] = None

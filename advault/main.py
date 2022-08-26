@@ -1,3 +1,4 @@
+from ast import main
 from re import A
 from typing import Union
 from urllib import response
@@ -9,32 +10,41 @@ from db.models import *
 from db.schema import *
 from auth.user import *
 from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
 app = FastAPI()
+
+@app.on_event("startup")
+async def createDb():
+    cr_db()
+
+
 
 
 @app.get("/")
 async def create():
     cr_db()
-    return {"message": "Database created"}
+    return {"message":"database created"}
 
 
 @app.post("/upload")
-async def upload(data: Aadhaar):
+async def upload(data: Aadhaar,current_user: User_data = Depends(get_current_active_user)):
     ins_data_hub(data)
     return {"message": "Data uploaded"}
 
 
 @app.get("/download_all/")
-async def download():
+async def download(current_user: User_data = Depends(get_current_active_user)):
     return get_all_data()
 
 
 @app.post("/download")
-async def download(columns: QuerType):
+async def download(columns: QuerType, current_user: User_data = Depends(get_current_active_user)):
     return get_data_by_columns(columns)
 
 @app.post("/download_by_premsat")
-async def download_by_premsat(multiSelctionDropdown: List[select_params] = Query(...)):
+async def download_by_premsat(multiSelctionDropdown: List[select_params] = Query(...),current_user: User_data = Depends(get_current_active_user)):
     return getDataByParms(multiSelctionDropdown)
 
 
@@ -42,8 +52,7 @@ async def download_by_premsat(multiSelctionDropdown: List[select_params] = Query
 
 
 
-from jose import JWTError, jwt
-from passlib.context import CryptContext
+
 
 # to get a string like this run:
 # openssl rand -hex 32
@@ -52,7 +61,7 @@ from passlib.context import CryptContext
 
 
 @app.get("/data")
-def get_u():
+def get_u(current_user: User_data = Depends(get_current_active_user)):
     users_db = get_all_users()
     res = {}
     for i in users_db:
@@ -90,7 +99,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         access_token = create_access_token(
             data={"sub": user.username}, expires_delta=access_token_expires 
         )
-        print(access_token)
+        
 
         return {"access_token": access_token, "token_type": "bearer"}
     except Exception as e:
@@ -98,10 +107,22 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return access_token
 
 
+# @app.get('/register')
+# def reg():
+#     register_users()
+#     return "data uploaded"
+
 @app.get('/register')
-def reg():
-    register_users()
-    return "data uploaded"
+def reg(form_data: User = Depends()):
+    if(form_data.confirmpass==form_data.password):
+        register_users(form_data)
+        return 'data uploaded' 
+    else:
+        return 'wrong confirm pass'
+
+
+
+
 
 
 @app.get("/users/me/")
@@ -109,9 +130,9 @@ async def read_users_me(current_user: User_data = Depends(get_current_active_use
     return current_user
 
 
-@app.get("/users/me/items/")
-async def read_own_items(current_user: User_data = Depends(get_current_active_user)):
-    return [{"item_id": "Foo", "owner": current_user.username}]
+# @app.get("/users/me/items/")
+# async def read_own_items(current_user: User_data = Depends(get_current_active_user)):
+#     return [{"item_id": "Foo", "owner": current_user.username}]
 
 
 
