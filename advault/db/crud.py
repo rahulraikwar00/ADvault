@@ -182,13 +182,9 @@ from passlib.context import CryptContext
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
-def register_users():
+def register_users(data:User):
     with get_db() as db:
-        user1 = User_data(username='pooja',hashed_password = pwd_context.hash('12345'),disabled = False)
-        user2 = User_data(username='rahul',hashed_password = pwd_context.hash('67890'),disabled = False)
-        user3 = User_data(username='aarti',hashed_password = pwd_context.hash('67582'),disabled = False)
-        db.add(user1)
-        db.add(user2)
-        db.add(user3)
+        user = User_data(username=data.username,hashed_password = pwd_context.hash(data.password),disabled = False)
+        db.add(user)
         db.commit()
         
