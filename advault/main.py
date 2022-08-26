@@ -19,8 +19,7 @@ app = FastAPI()
 async def createDb():
     cr_db()
 
-
-
+ 
 
 @app.get("/")
 async def create():
