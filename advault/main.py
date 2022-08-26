@@ -9,32 +9,35 @@ from db.models import *
 from db.schema import *
 from auth.user import *
 from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
 app = FastAPI()
 
 
 @app.get("/")
-async def create():
+async def create(current_user: User_data = Depends(get_current_active_user)):
     cr_db()
-    return {"message": "Database created"}
+    return {"current user":current_user,"message":"database created"}
 
 
 @app.post("/upload")
-async def upload(data: Aadhaar):
+async def upload(data: Aadhaar,current_user: User_data = Depends(get_current_active_user)):
     ins_data_hub(data)
     return {"message": "Data uploaded"}
 
 
 @app.get("/download_all/")
-async def download():
+async def download(current_user: User_data = Depends(get_current_active_user)):
     return get_all_data()
 
 
 @app.post("/download")
-async def download(columns: QuerType):
+async def download(columns: QuerType, current_user: User_data = Depends(get_current_active_user)):
     return get_data_by_columns(columns)
 
 @app.post("/download_by_premsat")
-async def download_by_premsat(multiSelctionDropdown: List[select_params] = Query(...)):
+async def download_by_premsat(multiSelctionDropdown: List[select_params] = Query(...),current_user: User_data = Depends(get_current_active_user)):
     return getDataByParms(multiSelctionDropdown)
 
 
@@ -42,8 +45,7 @@ async def download_by_premsat(multiSelctionDropdown: List[select_params] = Query
 
 
 
-from jose import JWTError, jwt
-from passlib.context import CryptContext
+
 
 # to get a string like this run:
 # openssl rand -hex 32
@@ -52,7 +54,7 @@ from passlib.context import CryptContext
 
 
 @app.get("/data")
-def get_u():
+def get_u(current_user: User_data = Depends(get_current_active_user)):
     users_db = get_all_users()
     res = {}
     for i in users_db:
